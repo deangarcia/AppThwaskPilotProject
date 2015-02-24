@@ -6,8 +6,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import cucumber.api.PendingException;
 import driver.IOSLaunch;
 
 public class PilotTestCases extends IOSLaunch
@@ -60,6 +58,10 @@ public class PilotTestCases extends IOSLaunch
 		element = wait
 				.until(ExpectedConditions.elementToBeClickable(By
 						.xpath(e)));
+	}
+	public void startLoginLoop()
+	{
+		Account_Looper.accounts_looper(mvpd);
 	}
 	/*
 	@Test
