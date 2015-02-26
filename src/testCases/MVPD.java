@@ -1,10 +1,8 @@
 package testCases;
 
-import java.util.ArrayList;
-
 public class MVPD 
 {
-	private ArrayList<Accounts> accounts= new ArrayList<Accounts>();
+	private Accounts accounts = new Accounts();
 	private String name;
 	
 	public MVPD()
@@ -24,23 +22,16 @@ public class MVPD
 	private void initializeAccounts(String value) 
 	{
 			//parts below will be in this class 
-			String usernames[] = value.split("\\s+");
-			for(int i = 0; i < usernames.length; i++)
-			{
-				String usrPass[] = usernames[i].split(",");
-				Accounts acct = new Accounts(usrPass[0], usrPass[1]);
-				accounts.add(acct);
-				System.out.println(accounts.get(i).getUsername() + " => " + accounts.get(i).getPassword());
-			}
+			String usrPass[] = value.split(",");
+			accounts = new Accounts(usrPass[0], usrPass[1]);
 	}
 	
+	public Accounts getAccount()
+	{
+		return accounts;
+	}
 	public String getName()
 	{
 		return name;
-	}
-	
-	public ArrayList<Accounts> getAccount()
-	{
-		return accounts;
 	}
 }

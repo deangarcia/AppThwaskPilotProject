@@ -8,6 +8,14 @@ public class Accounts
 	//the object table
 	//private String[] chipTruthTable;
 	
+	public Accounts()
+	{
+		this.username = "";
+		this.password = "";
+		//what should be the chip truth table initial value whats it look like?
+		//this table will let us know the user video privelages
+	}
+	
 	public Accounts(String username, String password)
 	{
 		this.username = username;
