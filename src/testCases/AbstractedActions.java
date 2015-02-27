@@ -51,7 +51,7 @@ public class AbstractedActions extends IOSLaunch {
 			//settings
 			tap(waitForElement_xpath("//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[4]"));
 			//sign in
-			tap (waitForElement_xpath("//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]/UIAStaticText[1]"));
+			tap(waitForElement_xpath("//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]/UIAStaticText[1]"));
 		
 			try {
 				Thread.sleep(3000);
@@ -61,6 +61,7 @@ public class AbstractedActions extends IOSLaunch {
 			}
 			
 			MobileElement element = (MobileElement)driver.findElement(By.name("Sign in with your TV provider to watch now."));
+			
 	    	for(int i = 0; i < 15; i++)
 	    	{
 	    		element.swipe(SwipeElementDirection.UP, 1000);
@@ -91,6 +92,7 @@ public class AbstractedActions extends IOSLaunch {
 			
 			//click Sign-In	
 			tap(waitForElement_xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAButton[1]"));
+			
 			WebElement ele = waitForElement_xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAStaticText[3]");
 			if(ele.getAttribute("name") == "Your account has been locked due to too many failed logins. Please, wait 1 hour, and try again.")
 			{
