@@ -1,10 +1,16 @@
 package testCases;
 
-import driver.IOSLaunch;
-
+import io.appium.java_client.ios.IOSDriver;
+import java.io.File;
+import java.io.IOException;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import driver.IOSLaunch;
 
 public class AbstractedActions  extends IOSLaunch {
 	
@@ -71,9 +77,25 @@ public class AbstractedActions  extends IOSLaunch {
 		}
 		
 		
-		public void playVideo(String xpath) {
+		public void playVideo(String xpath) throws InterruptedException {
 			tap(waitForElement_xpath(xpath));
-			
+			Thread.sleep(1000);
+			driver = (IOSDriver) new Augmenter().augment(driver);
+			// Get the screenshot
+			File scrFile = ((TakesScreenshot) driver)
+					.getScreenshotAs(OutputType.FILE);
+			System.out.println("Screenshot completed");
+			try{
+
+				File calsspathRoot = new File(System.getProperty("user.dir")); 
+				//workspace space is set in application folder
+				File appDir = new File(calsspathRoot, "screenShots");
+				// Copy the file to screenshot folder
+				FileUtils.copyFile(scrFile, appDir);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		public void pauseVideo(String name) {
