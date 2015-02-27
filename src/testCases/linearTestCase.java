@@ -24,7 +24,7 @@ public class linearTestCase extends IOSLaunch
 	public void TestScenario() throws InterruptedException
 	{
 		if(aa.login()){
-			aa.playVideo("//UIAApplication[1]/UIAWindow[1]/UIACollectionView[2]/UIACollectionCell[1]/UIACollectionView[1]/UIACollectionCell[1]/UIAStaticText[4]");
+			aa.playVideo("//UIAApplication[1]/UIAWindow[1]/UIACollectionView[2]/UIACollectionCell[1]/UIACollectionView[1]/UIACollectionCell[1]/UIAStaticText[3]");
 			aa.pauseVideo("btn play");
 			aa.backbutton("iPhone video backarrow");
 		}
