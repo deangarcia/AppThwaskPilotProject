@@ -4,10 +4,13 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.ios.IOSDriver;
 
+import org.openqa.selenium.interactions.Actions;
+
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -51,7 +54,7 @@ public class AbstractedActions extends IOSLaunch {
 			//settings
 			tap(waitForElement_xpath("//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[4]"));
 			//sign in
-			tap (waitForElement_xpath("//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]/UIAStaticText[1]"));
+			tap(waitForElement_xpath("//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]/UIAStaticText[1]"));
 		
 			try {
 				Thread.sleep(3000);
@@ -59,13 +62,20 @@ public class AbstractedActions extends IOSLaunch {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+<<<<<<< HEAD
+			driver.swipe(225,500,225,250,3000);
+
+		
+=======
 			
 			MobileElement element = (MobileElement)driver.findElement(By.name("Sign in with your TV provider to watch now."));
+			
 	    	for(int i = 0; i < 15; i++)
 	    	{
 	    		element.swipe(SwipeElementDirection.UP, 1000);
 	    	}
 	    	
+>>>>>>> origin/master
 			//more providers
 			tap(waitForElement_xpath("//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]/UIAButton[2]"));
 			//at&t
@@ -91,11 +101,20 @@ public class AbstractedActions extends IOSLaunch {
 			
 			//click Sign-In	
 			tap(waitForElement_xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAButton[1]"));
+			
+<<<<<<< HEAD
+			driver.swipe(225,500,225,250,3000);
+			if(waitForElement_xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAButton[1]").isEnabled())
+					return false;
+			
+			
+=======
 			WebElement ele = waitForElement_xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAStaticText[3]");
 			if(ele.getAttribute("name") == "Your account has been locked due to too many failed logins. Please, wait 1 hour, and try again.")
 			{
 				System.out.println("DABBLE");
 			}
+>>>>>>> origin/master
 			return true;
 		}
 		

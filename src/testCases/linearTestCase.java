@@ -9,7 +9,7 @@ public class linearTestCase extends IOSLaunch
 {
 	long totalTime;
 	AbstractedActions aa = new AbstractedActions();
-	
+	boolean loginTest;
 	@Before
 	public void init()
 	{
@@ -18,12 +18,16 @@ public class linearTestCase extends IOSLaunch
 	@After
 	public void endit()
 	{
-		aa.logout();
+		if(loginTest)
+			aa.logout();
+		
 	}
 	@Test
 	public void TestScenario() throws InterruptedException
 	{
-		if(aa.login()){
+		loginTest=aa.login();
+		System.out.println(loginTest);
+		if(loginTest){
 			aa.playVideo("//UIAApplication[1]/UIAWindow[1]/UIACollectionView[2]/UIACollectionCell[1]/UIACollectionView[1]/UIACollectionCell[1]/UIAStaticText[3]");
 			aa.pauseVideo("btn play");
 			aa.backbutton("iPhone video backarrow");
