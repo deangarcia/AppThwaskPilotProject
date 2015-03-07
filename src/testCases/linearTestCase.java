@@ -29,13 +29,13 @@ public class linearTestCase extends IOSLaunch {
 			AAA.settings();
 			loginTest = AAA.login(mvpd.get(i));
 			if (loginTest) {
-				PlayVideo.playVid(mvpd.get(0).getName());
+				PlayVideo.playVid(mvpd.get(i).getName());
 				AAA.logout();
 			}
 			// System.out.println(i + " MVPD");
 			long endTime = System.currentTimeMillis();
 			totalTime = endTime - startTime;
-			System.out.println("Time for provider " + mvpd.get(0).getName() + " " + ((int) Math.ceil((totalTime / 1000) / 60) + " Minutes"));
+			System.out.println("Time for provider " + mvpd.get(i).getName() + " " + ((int) Math.ceil((totalTime / 1000) / 60) + " Minutes"));
 		}
 	}
 }

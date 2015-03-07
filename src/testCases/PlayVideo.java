@@ -40,10 +40,10 @@ public class PlayVideo extends IOSLaunch {
 		// Get the screenshot
 		for (int i = 0; i < NUMBER_OF_SCREENSHOTS; i++) {
 			driver = (IOSDriver) new Augmenter().augment(driver);
-			File scrFile = ((TakesScreenshot) driver)
-					.getScreenshotAs(OutputType.FILE);
-			File calsspathRoot = new File(System.getProperty("user.dir"));
 			try {
+				File scrFile = ((TakesScreenshot) driver)
+						.getScreenshotAs(OutputType.FILE);
+				File calsspathRoot = new File(System.getProperty("user.dir"));
 				// workspace space is set in application folder
 				File testScreenShot = new File(calsspathRoot + "/screenShots",
 						"preRollAds" + mvpdName + i); // Copy the file to screenshot folder
