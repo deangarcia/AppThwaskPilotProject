@@ -11,6 +11,10 @@ public class MVPD
 	}
 	public MVPD(String name, String value)
 	{
+		if(name.equals("Comcast"))
+			name += " XFINITY";
+		else if(name.equals("AT&T"))
+			name += " U-verse";
 		this.name = name;
 		initializeAccounts(value);
 	}

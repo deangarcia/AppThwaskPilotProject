@@ -3,35 +3,39 @@ package testCases;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import driver.IOSLaunch;
 
-public class linearTestCase extends IOSLaunch
-{
+public class linearTestCase extends IOSLaunch {
 	long totalTime;
-	AbstractedActions aa = new AbstractedActions();
 	boolean loginTest;
+
 	@Before
-	public void init()
-	{
-		aa.settings();
+	public void init() {
+		System.out.println("start");
 	}
+
 	@After
-	public void endit()
-	{
-		if(loginTest)
-			aa.logout();
-		
+	public void endit() {
+		if (loginTest)
+			// AbstractedActions.logout();
+			System.out.println("done");
 	}
+
 	@Test
-	public void TestScenario() throws InterruptedException
-	{
-		loginTest=aa.login();
-		System.out.println(loginTest);
-		if(loginTest){
-			aa.playVideo("//UIAApplication[1]/UIAWindow[1]/UIACollectionView[2]/UIACollectionCell[1]/UIACollectionView[1]/UIACollectionCell[1]/UIAStaticText[3]");
-			aa.pauseVideo("btn play");
-			aa.backbutton("iPhone video backarrow");
+	public void TestScenario() throws InterruptedException {
+		for (int i = 0; i < mvpd.size(); i++) {
+			long startTime = System.currentTimeMillis();
+			AAA.settings();
+			loginTest = AAA.login(mvpd.get(i));
+			if (loginTest) {
+				PlayVideo.playVid(mvpd.get(0).getName());
+				AAA.logout();
+			}
+			// System.out.println(i + " MVPD");
+			long endTime = System.currentTimeMillis();
+			totalTime = endTime - startTime;
+			System.out.println("Time for provider " + mvpd.get(0).getName() + " " + ((int) Math.ceil((totalTime / 1000) / 60) + " Minutes"));
 		}
-			
 	}
 }
