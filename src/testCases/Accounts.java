@@ -1,7 +1,6 @@
 package testCases;
 
-public class Accounts 
-{	
+public class Accounts {
 	private String username;
 	private String password;
 	//how do i set up permissions truth table for every account and check it against 
@@ -31,4 +30,5 @@ public class Accounts
 	{
 		return password;
 	}
+
 }

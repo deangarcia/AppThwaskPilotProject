@@ -14,5 +14,7 @@
 	<classpathentry kind="lib" path="/Users/autoMaBP/selenium-java-2.44.0-srcs.jar"/>
 	<classpathentry kind="lib" path="/Users/autoMaBP/selenium-java-2.44.0.jar"/>
 	<classpathentry kind="lib" path="/Users/autoMaBP/selenium-server-standalone-2.44.0.jar"/>
+	<classpathentry kind="lib" path="/Users/deang/Documents/workspace/AppThwackPilotProject/lib/java-json.jar"/>
+	<classpathentry kind="lib" path="/Users/deang/Documents/workspace/AppThwackPilotProject/lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
