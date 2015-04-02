@@ -1,68 +1,213 @@
 package driver;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.remote.MobileCapabilityType;
-import java.net.URL;
-import java.util.ArrayList;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import testCases.MVPD;
-import testCases.jsonRead;
 
-public abstract class IOSLaunch {
-	public static AppiumDriver driver;
-	public static WebDriverWait wait;
-	public static ArrayList<MVPD>mvpd = new ArrayList<MVPD>();
-	public static jsonRead jsonReader =  new jsonRead("/Users/deang/Documents/workspace/AppThwackPilotProject/resources/read.json"); 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.Augmenter;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import testCases.Accounts;
+
+
+public class IOSLaunch extends Driver{
 	
-	@BeforeClass
-	public static void launchDriver() throws Throwable 
+	public IOSLaunch(String deviceName, String platformVersion, String udid, String bundleId) throws MalformedURLException 
 	{
-		jsonReader.readJsonFromFile();
-		
 		DesiredCapabilities capabilities = new DesiredCapabilities();
-		// Anrdoid
-		/*
-		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "4.0.4");
-		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Galaxy S3");
-		capabilities.setCapability(MobileCapabilityType.APP_PACKAGE, "");//appkey
-		// capabilities.setCapability(MobileCapabilityType.APP, myApp);//file id
-		*/
-		
-		
-		// AppthWack 
-		capabilities.setCapability("deviceName", "Apple iPhone 5"); // name of the device as listed on the appthwack api
-		capabilities.setCapability("platformVersion", "7.0"); // os of the device
-		capabilities.setCapability("automationName", "appium"); 
-		capabilities.setCapability("app", "206621"); // change this for every apk or ipa that you upload to appthwack
-		capabilities.setCapability("apiKey", "dbd3ee8964e351efc4017617921094461944a118"); // this is a unique key tied to a specific user
-		capabilities.setCapability("project", "40241"); // project key is shown in the project setting in your account
-		
-		// IOS
-		//iphone4s
-		//capabilities.setCapability("platformVersion", "7.0");
-		//capabilities.setCapability("udid", "aa18c45a49bcea5055be2e894748ccb25665e1c6");
-		//capabilities.setCapability("bundleId", "com.uie.foxsports.foxsportsgo");
-		//iphone5
-		//apabilities.setCapability("udid", "ce7d4a568c96f9886ed561d6aad36007e13fe0ff");
-		
-		//appium server
-		//driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-		
-		//appthwack server
+		capabilities.setCapability("deviceName", deviceName); // name of the device as listed on the appthwack api
+		capabilities.setCapability("platformVersion", platformVersion); // os of the device
+		capabilities.setCapability("udid", udid); 
+		capabilities.setCapability("bundleId", bundleId); // change this for every apk or ipa that you upload to appthwack
+		driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+	}
+	
+	public IOSLaunch(String deviceName, String platformVersion, String automationName, String application, String userKey, String projectId) throws MalformedURLException 
+	{	
+		DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability("deviceName", deviceName); // name of the device as listed on the appthwack api
+		capabilities.setCapability("platformVersion", platformVersion); // os of the device
+		capabilities.setCapability("automationName", automationName); 
+		capabilities.setCapability("app", application); // change this for every apk or ipa that you upload to appthwack
+		capabilities.setCapability("apiKey", userKey); // this is a unique key tied to a specific user
+		capabilities.setCapability("project", projectId); // project key is shown in the project setting in your account
 		driver = new IOSDriver(new URL("https://appthwack.com/wd/hub"), capabilities);
 	}
 	
-	// Everything in the method annotated with the AfterClass occurs at the very end of every junit test
-	// Important things to encapsulate here are proper shutdown procedures like logging out of an account 
-	// As well as taking a screen shot of user objects if error occured
-	@AfterClass
-	public static void tearDown() throws Exception 
-	{ 	
-		driver.quit();
+	public void baby(String accountName) {
+		
+		// tap(waitForElementXpath("//UIAApplication[1]/UIAWindow[1]/"
+			//	+ "UIANavigationBar[1]/UIAButton[4]",60));
+		System.out.println("IOS LAUNCH");
 	}
+	
+	public static void takescreenshots() throws InterruptedException {
+		
+		driver = (IOSDriver) new Augmenter().augment(driver);
+		Thread.sleep(9000);
+		// Get the screenshot
+		File scrFile = ((TakesScreenshot) driver)
+				.getScreenshotAs(OutputType.FILE);
+		System.out.println("Screenshot completed");
+		try{
+
+			File calsspathRoot = new File(System.getProperty("user.dir")); 
+			//workspace space is set in application folder
+			
+			File testScreenShot = new File(calsspathRoot + "screenShots", "preRollAds");
+			// Copy the file to screenshot folder
+			FileUtils.copyFile(scrFile, testScreenShot);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void loginAccountSettings (String accountName) {
+		
+		// Settings button
+		tap(waitForElementXpath("//UIAApplication[1]/UIAWindow[1]/"
+				+ "UIANavigationBar[1]/UIAButton[4]",60));
+		// Sign in
+		tap (waitForElementXpath("//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/"
+				+ "UIATableCell[1]/UIAStaticText[1]",60));
+		
+		// Could instead wait for one of the elements to be visible that way we know 
+		// We can swipe now 
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// ios 5 swipe dimensions
+		// driver.swipe(225,500,225,250,3000);
+		// Swipe to more providers if it is not visible maybe should add in a if statement
+		driver.swipe(290, 420, 290, 234, 3000);
+		
+		// More providers
+		tap(waitForElementXpath("//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]/"
+				+ "UIAButton[2]",60));
+		
+		// Find provider
+		// Scroll to works when invisible elements are present in the DOM we know 
+		// That elements are present on the DOM if they have a y coordinate Location, 
+		driver.scrollTo(accountName);
+		tap(waitForElementName(accountName,60));
+	}
+	
+	public boolean login(Accounts account) {
+		//username
+		// Some username are saved automatically after they are put in once this is a web view
+		// Issue that I was having with suddenLink might need to throw in a if statement to 
+		// Check if the fields are already filled with correct username or password
+		WebElement element = waitForElementXpath("//UIAApplication[1]/UIAWindow[1]/"
+				+ "UIAScrollView[1]/UIAWebView[1]/UIATextField[1]",60);
+		click(element);
+		element.sendKeys(account.getUsername());
+		
+		//password
+		element = waitForElementXpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/"
+				+ "UIAWebView[1]/UIATextField[2]",60);
+		click(element);
+		element.sendKeys(account.getPassword());
+		
+		//done
+		tap(waitForElementXpath("//UIAApplication[1]/UIAWindow[2]/UIAToolbar[1]/UIAButton[3]",60));
+		
+		//click Sign-In	
+		tap(waitForElementXpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/"
+				+ "UIAWebView[1]/UIAButton[1]",60));
+		
+		
+		try{
+			  Thread.sleep(1000);
+			  //driver.swipe(225,500,225,250,3000);
+			  driver.swipe(290, 420, 290, 234, 3000);
+			  waitForElementXpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/"
+			  		+ "UIAWebView[1]/UIAButton[1]",15).isEnabled();
+		} catch (Exception e) {
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	public void playVideos() throws InterruptedException {
+		String xpath="";
+		
+		// Driver will wait 5 seconds before searching for an element used to 
+		// Replace the Thread.Sleep(5000)
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		int i=1;
+		List<WebElement> labels= driver.findElementsByXPath("//UIAApplication[1]/UIAWindow[1]/"
+				+ "UIACollectionView[2]/UIACollectionCell[1]/UIACollectionView[1]/UIACollectionCell");
+		System.out.println("Size:" + labels.size());
+		// Setting driver implicit wait duration to default value which is zero revert 
+		// Back to zero because if it is not reset every find element will wait 5 seconds
+		driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+		
+		while(i>0 && i<= labels.size()) {
+			System.out.println("Iteration:" + i);
+			xpath = video_xpath+"["+i+"]"+"/UIAStaticText[1]";
+			System.out.println("XPATH: " +xpath);
+			driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+			WebElement ele = driver.findElementByXPath(xpath);
+			driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+			String name = ele.getText();
+			
+			if(!name.equalsIgnoreCase("ON NOW")) {
+				break;
+			
+			}
+			tap(ele);
+			takescreenshots();
+			Thread.sleep(9000);
+			//pressButton("btn play");
+			reverseGenieEffect("iPhone video backarrow",ele);	
+			Thread.sleep(3000);	
+			System.out.println("SWIPE");
+			int j=0;
+			while(j<i){
+				//driver.swipe(225,440,225,250,1000);
+				driver.swipe(290, 420, 290, 234, 1000);
+				j++;
+			}
+			i++;
+		}
+	}
+	
+	public void logout(){
+		tap(waitForElementXpath("//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[4]",60));
+		tap(waitForElementXpath("//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/"
+				+ "UIATableCell[1]/UIAStaticText[1]",60));
+		tap(waitForElementName("OK",60));
+	}
+	
+	public WebElement waitForElementXpath(String xpath,int waitTime) {
+		wait = new WebDriverWait(driver, waitTime);
+		WebElement element = wait
+				.until(ExpectedConditions.elementToBeClickable(By
+						.xpath(xpath)));
+		return element;
+		
+	}
+
+	
+	public String video_xpath = "//UIAApplication[1]/UIAWindow[1]/UIACollectionView[2]/"
+			+ "UIACollectionCell[1]/UIACollectionView[1]/UIACollectionCell";
+	
 }
